@@ -8,10 +8,16 @@
     tools:context="kyleilantzis.github.com.mymaps.MapActivity">
 
     <com.mapbox.mapboxsdk.maps.MapView
-        android:id="@+id/mapView"
+        android:id="@+id/mapboxMapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:mapbox_styleUrl="mapbox://styles/kyleilantzis/cj4j5dftv091p2qlgiag0bvq6"
-        app:mapbox_cameraZoom="11" />
+        android:visibility="gone"/>
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/googlemapsMapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 
 </FrameLayout>

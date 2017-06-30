@@ -16,6 +16,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "MAPBOX_KEY", '"' + secrets["MAPBOX_KEY"] + '"'
+        resValue "string", "GOOGLEMAPS_KEY", secrets["GOOGLEMAPS_KEY"]
     }
     buildTypes {
         release {

@@ -5,12 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.View
 import com.mapbox.mapboxsdk.Mapbox
-import com.mapbox.mapboxsdk.annotations.MarkerOptions
-import com.mapbox.mapboxsdk.camera.CameraPosition
-import com.mapbox.mapboxsdk.geometry.LatLng
-import com.mapbox.mapboxsdk.maps.MapView
-import com.mapbox.mapboxsdk.maps.MapboxMap
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.system.measureNanoTime
@@ -19,52 +15,86 @@ class MapActivity : AppCompatActivity() {
 
     companion object {
 
-        val EXTRA_TYPE = "extra-type"
+        val TAG = "MyMaps"
 
-        val TYPE_MAPBOX_1000_POINTS = 0
+        val EXTRA_TYPE = "type"
+        val EXTRA_ACTION = "action"
 
-        val TYPE_GOOGLEMAPS_1000_POINTS = 10
+        val TYPE_MAPBOX = 0
+        val TYPE_GOOGLEMAPS = 1
 
-        fun start(ctx: Context, type: Int) {
-            ctx.startActivity(Intent(ctx, Class.forName("kyleilantzis.github.com.mymaps.MapActivity")).putExtra(EXTRA_TYPE, type))
+        val ACTION_1000_POINTS = 0
+
+        fun start(ctx: Context, type: Int, action: Int) {
+            val i = Intent(ctx, Class.forName("kyleilantzis.github.com.mymaps.MapActivity"))
+                    .putExtra(EXTRA_TYPE, type)
+                    .putExtra(EXTRA_ACTION, action)
+            ctx.startActivity(i)
         }
     }
 
+    // New York City
     val LAT = 40.73581
     val LON = -73.99155
-    val ZOOM = 14.0
 
-    lateinit var mapView: MapView
-    lateinit var map: MapboxMap
+    lateinit var mapView: CommonMapView
+    lateinit var map: CommonMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Mapbox.getInstance(this, BuildConfig.MAPBOX_KEY)
+        Mapbox.getInstance(applicationContext, BuildConfig.MAPBOX_KEY)
 
         setContentView(R.layout.activity_map)
 
-        mapView = findViewById(R.id.mapView) as MapView
+        val type = intent.getIntExtra(EXTRA_TYPE, TYPE_MAPBOX)
+        val action = intent.getIntExtra(EXTRA_ACTION, ACTION_1000_POINTS)
+
+        when (type) {
+
+            TYPE_MAPBOX -> {
+                Log.i(TAG, "map type mapbox")
+                val view = findViewById(R.id.mapboxMapView) as com.mapbox.mapboxsdk.maps.MapView
+                view.visibility = View.VISIBLE
+                mapView = mapViewFrom(view)
+            }
+
+            TYPE_GOOGLEMAPS -> {
+                Log.i(TAG, "map type google maps")
+                val view = findViewById(R.id.googlemapsMapView) as com.google.android.gms.maps.MapView
+                view.visibility = View.VISIBLE
+                mapView = mapViewFrom(view)
+            }
+        }
+
         mapView.onCreate(savedInstanceState)
 
         mapView.getMapAsync {
             map = it
 
-            val target = LatLng(LAT, LON)
+            val target = LAT to LON
+            map.target = target
 
-            map.cameraPosition = CameraPosition.Builder(map.cameraPosition)
-                    .target(target)
-                    .zoom(ZOOM)
-                    .build()
+            when (action) {
 
-            val elapsed = measureNanoTime {
-                randomPoints(target).forEachIndexed { i, latlon ->
-                    map.addMarker(MarkerOptions().title(Integer.toString(i)).position(latlon))
+                ACTION_1000_POINTS -> {
+
+                    Log.i(TAG, "starting action 1000 points...")
+
+                    val elapsed = measureNanoTime {
+                        randomPoints(target).forEachIndexed { i, latlon ->
+
+                            val icon = null
+                            val title = Integer.toString(i)
+
+                            map.addMarker(icon, title, latlon)
+                        }
+                    }
+
+                    val millis = TimeUnit.NANOSECONDS.toMillis(elapsed)
+                    Log.i(TAG, "action 1000 points: $millis millis")
                 }
             }
-
-            val millis = TimeUnit.NANOSECONDS.toMillis(elapsed)
-            Log.d("KYLE", "elapsed $millis millis")
         }
     }
 
@@ -103,14 +133,14 @@ class MapActivity : AppCompatActivity() {
         mapView.onDestroy()
     }
 
-    fun randomPoints(start: LatLng, count: Int = 1000): List<LatLng> {
+    fun randomPoints(start: Pair<Double, Double>, count: Int = 1000): List<Pair<Double, Double>> {
 
         val rand = Random()
 
-        var lat = start.latitude
-        var lon = start.longitude
+        var lat = start.first
+        var lon = start.second
 
-        val list = ArrayList<LatLng>()
+        val list = ArrayList<Pair<Double, Double>>()
 
         for (i in 0..count) {
 
@@ -123,7 +153,7 @@ class MapActivity : AppCompatActivity() {
             val nextLat = lat + nextLatSign * stepLat
             val nextLon = lon + nextLonSign * stepLon
 
-            list.add(LatLng(nextLat, nextLon))
+            list.add(nextLat to nextLon)
 
             lat = nextLat
             lon = nextLon
