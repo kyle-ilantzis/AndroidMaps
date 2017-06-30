@@ -1,4 +1,4 @@
-package kyleilantzis.github.com.mymaps
+package com.github.kyleilantzis.androidmaps
 
 import android.content.Context
 import android.content.Intent
@@ -27,7 +27,7 @@ class MapActivity : AppCompatActivity() {
         val ACTION_1000_POINTS = 0
 
         fun start(ctx: Context, type: Int, action: Int) {
-            val i = Intent(ctx, Class.forName("kyleilantzis.github.com.mymaps.MapActivity"))
+            val i = Intent(ctx, Class.forName("com.github.kyleilantzis.androidmaps.MapActivity"))
                     .putExtra(EXTRA_TYPE, type)
                     .putExtra(EXTRA_ACTION, action)
             ctx.startActivity(i)

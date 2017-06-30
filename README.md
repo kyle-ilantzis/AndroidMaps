@@ -1,4 +1,4 @@
-# MyMaps - comparing google maps and mapbox performance on android
+# AndroidMaps - comparing google maps and mapbox performance on android
 
 What is [google maps](https://developers.google.com/maps/)? Learn about the [google maps android sdk](https://developers.google.com/maps/documentation/android-api/)
 

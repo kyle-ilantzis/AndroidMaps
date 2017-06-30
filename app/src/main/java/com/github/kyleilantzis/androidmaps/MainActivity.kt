@@ -1,4 +1,4 @@
-package kyleilantzis.github.com.mymaps
+package com.github.kyleilantzis.androidmaps
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity

@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="kyleilantzis.github.com.mymaps.MapActivity">
+    tools:context=".MapActivity">
 
     <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/mapboxMapView"

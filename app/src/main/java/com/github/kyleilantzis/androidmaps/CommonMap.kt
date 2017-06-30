@@ -1,4 +1,4 @@
-package kyleilantzis.github.com.mymaps
+package com.github.kyleilantzis.androidmaps
 
 import android.graphics.Bitmap
 import android.os.Bundle
