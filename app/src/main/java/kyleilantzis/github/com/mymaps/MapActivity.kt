@@ -81,8 +81,10 @@ class MapActivity : AppCompatActivity() {
 
                     Log.i(TAG, "starting action 1000 points...")
 
+                    val randomPoints = randomPoints(target)
+
                     val elapsed = measureNanoTime {
-                        randomPoints(target).forEachIndexed { i, latlon ->
+                        randomPoints.forEachIndexed { i, latlon ->
 
                             val icon = null
                             val title = Integer.toString(i)
