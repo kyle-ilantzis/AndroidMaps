@@ -3,6 +3,7 @@ package kyleilantzis.github.com.mymaps
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
@@ -37,6 +38,7 @@ class MapActivity : AppCompatActivity() {
     val LAT = 40.73581
     val LON = -73.99155
 
+    lateinit var layout: View
     lateinit var mapView: CommonMapView
     lateinit var map: CommonMap
 
@@ -46,6 +48,8 @@ class MapActivity : AppCompatActivity() {
         Mapbox.getInstance(applicationContext, BuildConfig.MAPBOX_KEY)
 
         setContentView(R.layout.activity_map)
+
+        layout = findViewById(R.id.layout)
 
         val type = intent.getIntExtra(EXTRA_TYPE, TYPE_MAPBOX)
         val action = intent.getIntExtra(EXTRA_ACTION, ACTION_1000_POINTS)
@@ -95,6 +99,7 @@ class MapActivity : AppCompatActivity() {
 
                     val millis = TimeUnit.NANOSECONDS.toMillis(elapsed)
                     Log.i(TAG, "action 1000 points: $millis millis")
+                    showSnackbar("Adding 1000 points took $millis millis")
                 }
             }
         }
@@ -133,6 +138,10 @@ class MapActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         mapView.onDestroy()
+    }
+
+    fun showSnackbar(message: String) {
+        Snackbar.make(layout, message, Snackbar.LENGTH_SHORT).show()
     }
 
     fun randomPoints(start: Pair<Double, Double>, count: Int = 1000): List<Pair<Double, Double>> {
