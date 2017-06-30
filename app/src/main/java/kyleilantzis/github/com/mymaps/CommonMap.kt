@@ -105,7 +105,7 @@ class MapboxCommonMap(override val map: MapboxMap, val iconFactory: IconFactory)
             return t.latitude to t.longitude
         }
         set(value) {
-            map.moveCamera(com.mapbox.mapboxsdk.camera.CameraUpdateFactory.newLatLng(com.mapbox.mapboxsdk.geometry.LatLng(value.first, value.second)))
+            map.moveCamera(com.mapbox.mapboxsdk.camera.CameraUpdateFactory.newLatLngZoom(com.mapbox.mapboxsdk.geometry.LatLng(value.first, value.second), 14.0))
         }
 
     override fun addMarker(icon: CommonIcon?, title: String?, latlon: Pair<Double, Double>) {
@@ -179,11 +179,21 @@ class GoogleCommonMap(override val map: GoogleMap) :
             return t.latitude to t.longitude
         }
         set(value) {
-            map.moveCamera(com.google.android.gms.maps.CameraUpdateFactory.newLatLng(com.google.android.gms.maps.model.LatLng(value.first, value.second)))
+            map.moveCamera(com.google.android.gms.maps.CameraUpdateFactory.newLatLngZoom(com.google.android.gms.maps.model.LatLng(value.first, value.second), 14.0F))
         }
 
     override fun addMarker(icon: CommonIcon?, title: String?, latlon: Pair<Double, Double>) {
 
+        val options = com.google.android.gms.maps.model.MarkerOptions()
+
+        if (icon != null) {
+            options.icon((icon as GoogleCommonIcon).desc)
+        }
+
+        options.title(title)
+        options.position(com.google.android.gms.maps.model.LatLng(latlon.first, latlon.second))
+
+        map.addMarker(options)
     }
 
     override fun makeCommonIcon(bmp: Bitmap): CommonIcon {
