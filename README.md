@@ -8,9 +8,13 @@ What is [mapbox](https://www.mapbox.com/)? Learn about the [mapbox android sdk](
 
 ### Adding 1000 default markers to the map
 
-Google Maps: approximately 100 milliseconds
+Google Maps: on average 100 milliseconds
 
-Mapbox: approximately 20 milliseconds
+Mapbox: on average 20 milliseconds
+
+![](readme/googlemaps_1000_points.png)
+
+![](readme/mapbox_1000_points.png)
 
 ## Installation
 
