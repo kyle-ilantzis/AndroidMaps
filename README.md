@@ -12,9 +12,9 @@ Google Maps: on average 100 milliseconds
 
 Mapbox: on average 20 milliseconds
 
-![](readme/googlemaps_1000_points.png)
+<img src="readme/googlemaps_1000_points.png" width="320" height="420" />
 
-![](readme/mapbox_1000_points.png)
+<img src="readme/mapbox_1000_points.png" width="320" height="420" />
 
 ## Installation
 
