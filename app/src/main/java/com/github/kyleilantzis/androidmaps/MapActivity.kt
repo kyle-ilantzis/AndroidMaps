@@ -2,6 +2,7 @@ package com.github.kyleilantzis.androidmaps
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.*
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
@@ -9,8 +10,7 @@ import android.util.Log
 import android.view.View
 import com.mapbox.mapboxsdk.Mapbox
 import java.util.*
-import java.util.concurrent.TimeUnit
-import kotlin.system.measureNanoTime
+import kotlin.system.measureTimeMillis
 
 class MapActivity : AppCompatActivity() {
 
@@ -25,6 +25,7 @@ class MapActivity : AppCompatActivity() {
         val TYPE_GOOGLEMAPS = 1
 
         val ACTION_1000_POINTS = 0
+        val ACTION_1000_SIMILAR_POINTS = 1
 
         fun start(ctx: Context, type: Int, action: Int) {
             val i = Intent(ctx, Class.forName("com.github.kyleilantzis.androidmaps.MapActivity"))
@@ -81,26 +82,8 @@ class MapActivity : AppCompatActivity() {
 
             when (action) {
 
-                ACTION_1000_POINTS -> {
-
-                    Log.i(TAG, "starting action 1000 points...")
-
-                    val randomPoints = randomPoints(target)
-
-                    val elapsed = measureNanoTime {
-                        randomPoints.forEachIndexed { i, latlon ->
-
-                            val icon = null
-                            val title = Integer.toString(i)
-
-                            map.addMarker(icon, title, latlon)
-                        }
-                    }
-
-                    val millis = TimeUnit.NANOSECONDS.toMillis(elapsed)
-                    Log.i(TAG, "action 1000 points: $millis millis")
-                    showSnackbar("Adding 1000 points took $millis millis")
-                }
+                ACTION_1000_POINTS -> _1000_points()
+                ACTION_1000_SIMILAR_POINTS -> _1000_similar_points()
             }
         }
     }
@@ -140,8 +123,89 @@ class MapActivity : AppCompatActivity() {
         mapView.onDestroy()
     }
 
+    fun _1000_points() {
+
+        Log.i(TAG, "starting action 1000 points...")
+
+        val target = map.target
+
+        val randomPoints = randomPoints(target)
+
+        val elapsed = measureTimeMillis {
+            randomPoints.forEachIndexed { i, latlon ->
+
+                val icon = null
+                val title = Integer.toString(i)
+
+                map.addMarker(icon, title, latlon)
+            }
+        }
+
+        Log.i(TAG, "action 1000 points: $elapsed millis")
+        showSnackbar("Adding 1000 points took $elapsed millis")
+
+    }
+
+    fun _1000_similar_points() {
+
+        Log.i(TAG, "starting action 1000 similar points...")
+
+        val target = map.target
+
+        val startIcons = System.currentTimeMillis()
+
+        val icon1 = makeTriangleIcon(Color.RED)
+        val icon2 = makeTriangleIcon(Color.BLUE)
+        val icon3 = makeTriangleIcon(Color.YELLOW)
+        val icons = arrayOf(icon1, icon2, icon3)
+
+        val elapsedIcons = System.currentTimeMillis() - startIcons
+        Log.i(TAG, "action 1000 similar points: icons took $elapsedIcons millis")
+
+        val random = Random()
+        val randomPoints = randomPoints(target)
+
+        val elapsed = measureTimeMillis {
+            randomPoints.forEachIndexed { i, latlon ->
+
+                val icon = icons[random.nextInt(icons.size)]
+                val title = Integer.toString(i)
+
+                map.addMarker(icon, title, latlon)
+            }
+        }
+
+        Log.i(TAG, "action 1000 similar points: $elapsed millis")
+        showSnackbar("Adding 1000 similar points took $elapsedIcons millis to create the icons and $elapsed millis to add the markers")
+    }
+
     fun showSnackbar(message: String) {
         Snackbar.make(layout, message, Snackbar.LENGTH_SHORT).show()
+    }
+
+    fun makeTriangleIcon(color: Int): CommonIcon {
+
+        val density = resources.displayMetrics.density
+        val w = 16 * density
+        val h = 24 * density
+
+        val bmp = Bitmap.createBitmap(w.toInt(), h.toInt(), Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bmp)
+
+        val paint = Paint()
+        paint.style = Paint.Style.FILL
+        paint.color = color
+
+        // A triangle polygon with the point downwards
+        val path = Path()
+        path.moveTo(0F, 0F)
+        path.lineTo(w, 0F)
+        path.lineTo(w / 2, h)
+        path.lineTo(0F, 0F)
+
+        canvas.drawPath(path, paint)
+
+        return map.makeCommonIcon(bmp)
     }
 
     fun randomPoints(start: Pair<Double, Double>, count: Int = 1000): List<Pair<Double, Double>> {

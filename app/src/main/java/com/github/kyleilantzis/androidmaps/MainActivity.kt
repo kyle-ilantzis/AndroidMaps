@@ -11,10 +11,20 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-        val b1 = findViewById(R.id.googleMapsBtn) as Button
-        b1.setOnClickListener { MapActivity.start(this, MapActivity.TYPE_GOOGLEMAPS, MapActivity.ACTION_1000_POINTS) }
+        (findViewById(R.id.googleMaps_1000_points_btn) as Button).setOnClickListener {
+            MapActivity.start(this, MapActivity.TYPE_GOOGLEMAPS, MapActivity.ACTION_1000_POINTS)
+        }
 
-        val b2 = findViewById(R.id.mapboxBtn) as Button
-        b2.setOnClickListener { MapActivity.start(this, MapActivity.TYPE_MAPBOX, MapActivity.ACTION_1000_POINTS) }
+        (findViewById(R.id.mapbox_1000_points_btn) as Button).setOnClickListener {
+            MapActivity.start(this, MapActivity.TYPE_MAPBOX, MapActivity.ACTION_1000_POINTS)
+        }
+
+        (findViewById(R.id.googleMaps_1000_similar_points_btn) as Button).setOnClickListener {
+            MapActivity.start(this, MapActivity.TYPE_GOOGLEMAPS, MapActivity.ACTION_1000_SIMILAR_POINTS)
+        }
+
+        (findViewById(R.id.mapbox_1000_similar_points_btn) as Button).setOnClickListener {
+            MapActivity.start(this, MapActivity.TYPE_MAPBOX, MapActivity.ACTION_1000_SIMILAR_POINTS)
+        }
     }
 }
