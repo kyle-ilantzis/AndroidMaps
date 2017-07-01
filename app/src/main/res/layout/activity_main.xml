@@ -43,5 +43,22 @@
             android:layout_gravity="center_horizontal"
             android:text="Mapbox 1000 similar points"/>
 
+        <Button
+            android:id="@+id/googleMaps_1000_different_points_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Google Maps 1000 different points"/>
+
+        <Button
+            android:id="@+id/mapbox_1000_different_points_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Mapbox 1000 different points"/>
+
+
     </LinearLayout>
 </ScrollView>

@@ -26,6 +26,7 @@ class MapActivity : AppCompatActivity() {
 
         val ACTION_1000_POINTS = 0
         val ACTION_1000_SIMILAR_POINTS = 1
+        val ACTION_1000_DIFFERENT_POINTS = 2
 
         fun start(ctx: Context, type: Int, action: Int) {
             val i = Intent(ctx, Class.forName("com.github.kyleilantzis.androidmaps.MapActivity"))
@@ -84,6 +85,7 @@ class MapActivity : AppCompatActivity() {
 
                 ACTION_1000_POINTS -> _1000_points()
                 ACTION_1000_SIMILAR_POINTS -> _1000_similar_points()
+                ACTION_1000_DIFFERENT_POINTS -> _1000_different_points()
             }
         }
     }
@@ -176,7 +178,41 @@ class MapActivity : AppCompatActivity() {
         }
 
         Log.i(TAG, "action 1000 similar points: $elapsed millis")
-        showSnackbar("Adding 1000 similar points took $elapsedIcons millis to create the icons and $elapsed millis to add the markers")
+        showSnackbar("1000 similar points took $elapsedIcons millis to create the icons and $elapsed millis to add the markers")
+    }
+
+    fun _1000_different_points() {
+
+        Log.i(TAG, "starting action 1000 different points...")
+
+        val target = map.target
+        val random = Random()
+
+        val startIcons = System.currentTimeMillis()
+
+        val icons = Array<CommonIcon>(1000, {
+            val color = Color.rgb(random.nextInt(256), random.nextInt(256), random.nextInt(256))
+            makeTriangleIcon(color)
+        })
+
+        val elapsedIcons = System.currentTimeMillis() - startIcons
+        Log.i(TAG, "action 1000 different points: icons took $elapsedIcons millis")
+
+
+        val randomPoints = randomPoints(target)
+
+        val elapsed = measureTimeMillis {
+            randomPoints.forEachIndexed { i, latlon ->
+
+                val icon = icons[i]
+                val title = Integer.toString(i)
+
+                map.addMarker(icon, title, latlon)
+            }
+        }
+
+        Log.i(TAG, "action 1000 different points: $elapsed millis")
+        showSnackbar("1000 different points took $elapsedIcons millis to create the icons and $elapsed millis to add the markers")
     }
 
     fun showSnackbar(message: String) {
@@ -217,7 +253,7 @@ class MapActivity : AppCompatActivity() {
 
         val list = ArrayList<Pair<Double, Double>>()
 
-        for (i in 0..count) {
+        for (i in 0 until count) {
 
             val nextLatSign = if (rand.nextBoolean()) 1 else -1
             val nextLonSign = if (rand.nextBoolean()) 1 else -1
