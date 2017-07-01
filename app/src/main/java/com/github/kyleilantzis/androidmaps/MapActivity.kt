@@ -41,9 +41,7 @@ class MapActivity : AppCompatActivity() {
         }
     }
 
-    // New York City
-    val LAT = 40.73581
-    val LON = -73.99155
+    val POINTS = BuildConfig.POINTS
 
     lateinit var layout: View
     lateinit var mapView: CommonMapView
@@ -87,9 +85,7 @@ class MapActivity : AppCompatActivity() {
 
         mapView.getMapAsync {
             map = it
-
-            val target = LAT to LON
-            map.target = target
+            map.target = BuildConfig.LAT to BuildConfig.LON
 
             when (action) {
 
@@ -140,11 +136,9 @@ class MapActivity : AppCompatActivity() {
 
     fun _1000_points() {
 
-        Log.i(TAG, "starting action 1000 points...")
+        Log.i(TAG, "starting action $POINTS points...")
 
-        val target = map.target
-
-        val randomPoints = randomPoints(target)
+        val randomPoints = randomPoints()
 
         val elapsed = measureTimeMillis {
             randomPoints.forEachIndexed { i, latlon ->
@@ -159,16 +153,14 @@ class MapActivity : AppCompatActivity() {
         iconMillis = 0
         markerMillis = elapsed
 
-        Log.i(TAG, "action 1000 points: $elapsed millis")
-        showSnackbar("Adding 1000 points took $elapsed millis")
+        Log.i(TAG, "action $POINTS points: $elapsed millis")
+        showSnackbar("Adding $POINTS points took $elapsed millis")
 
     }
 
     fun _1000_similar_points() {
 
-        Log.i(TAG, "starting action 1000 similar points...")
-
-        val target = map.target
+        Log.i(TAG, "starting action $POINTS similar points...")
 
         val startIcons = System.currentTimeMillis()
 
@@ -178,10 +170,10 @@ class MapActivity : AppCompatActivity() {
         val icons = arrayOf(icon1, icon2, icon3)
 
         val elapsedIcons = System.currentTimeMillis() - startIcons
-        Log.i(TAG, "action 1000 similar points: icons took $elapsedIcons millis")
+        Log.i(TAG, "action $POINTS similar points: icons took $elapsedIcons millis")
 
         val random = Random()
-        val randomPoints = randomPoints(target)
+        val randomPoints = randomPoints()
 
         val elapsed = measureTimeMillis {
             randomPoints.forEachIndexed { i, latlon ->
@@ -193,29 +185,28 @@ class MapActivity : AppCompatActivity() {
             }
         }
 
-        Log.i(TAG, "action 1000 similar points: $elapsed millis")
-        showSnackbar("1000 similar points took $elapsedIcons millis to create the icons and $elapsed millis to add the markers")
+        Log.i(TAG, "action $POINTS similar points: $elapsed millis")
+        showSnackbar("$POINTS similar points took $elapsedIcons millis to create the icons and $elapsed millis to add the markers")
     }
 
     fun _1000_different_points() {
 
-        Log.i(TAG, "starting action 1000 different points...")
+        Log.i(TAG, "starting action $POINTS different points...")
 
-        val target = map.target
         val random = Random()
 
         val startIcons = System.currentTimeMillis()
 
-        val icons = Array<CommonIcon>(1000, {
+        val icons = Array<CommonIcon>(POINTS, {
             val color = Color.rgb(random.nextInt(256), random.nextInt(256), random.nextInt(256))
             makeTriangleIcon(color)
         })
 
         val elapsedIcons = System.currentTimeMillis() - startIcons
-        Log.i(TAG, "action 1000 different points: icons took $elapsedIcons millis")
+        Log.i(TAG, "action $POINTS different points: icons took $elapsedIcons millis")
 
 
-        val randomPoints = randomPoints(target)
+        val randomPoints = randomPoints()
 
         val elapsed = measureTimeMillis {
             randomPoints.forEachIndexed { i, latlon ->
@@ -227,8 +218,8 @@ class MapActivity : AppCompatActivity() {
             }
         }
 
-        Log.i(TAG, "action 1000 different points: $elapsed millis")
-        showSnackbar("1000 different points took $elapsedIcons millis to create the icons and $elapsed millis to add the markers")
+        Log.i(TAG, "action $POINTS different points: $elapsed millis")
+        showSnackbar("$POINTS different points took $elapsedIcons millis to create the icons and $elapsed millis to add the markers")
     }
 
     fun showSnackbar(message: String) {
@@ -260,16 +251,16 @@ class MapActivity : AppCompatActivity() {
         return map.makeCommonIcon(bmp)
     }
 
-    fun randomPoints(start: Pair<Double, Double>, count: Int = 1000): List<Pair<Double, Double>> {
+    fun randomPoints(): List<Pair<Double, Double>> {
 
         val rand = Random()
 
-        var lat = start.first
-        var lon = start.second
+        var lat = BuildConfig.LAT
+        var lon = BuildConfig.LON
 
         val list = ArrayList<Pair<Double, Double>>()
 
-        for (i in 0 until count) {
+        for (i in 0 until BuildConfig.POINTS) {
 
             val nextLatSign = if (rand.nextBoolean()) 1 else -1
             val nextLonSign = if (rand.nextBoolean()) 1 else -1

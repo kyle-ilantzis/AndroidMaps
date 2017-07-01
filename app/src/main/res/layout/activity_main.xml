@@ -12,52 +12,52 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/googleMaps_1000_points_btn"
+            android:id="@+id/googlemaps_points_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_gravity="center_horizontal"
-            android:text="Google Maps 1000 points"/>
+            android:text="@string/googlemaps_points"/>
 
         <Button
-            android:id="@+id/mapbox_1000_points_btn"
+            android:id="@+id/mapbox_points_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_gravity="center_horizontal"
-            android:text="Mapbox 1000 points"/>
+            android:text="@string/mapbox_points"/>
 
         <Button
-            android:id="@+id/googleMaps_1000_similar_points_btn"
+            android:id="@+id/googlemaps_similar_points_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_gravity="center_horizontal"
-            android:text="Google Maps 1000 similar points"/>
+            android:text="@string/googlemaps_similar_points"/>
 
         <Button
-            android:id="@+id/mapbox_1000_similar_points_btn"
+            android:id="@+id/mapbox_similar_points_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_gravity="center_horizontal"
-            android:text="Mapbox 1000 similar points"/>
+            android:text="@string/mapbox_similar_points"/>
 
         <Button
-            android:id="@+id/googleMaps_1000_different_points_btn"
+            android:id="@+id/googlemaps_different_points_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_gravity="center_horizontal"
-            android:text="Google Maps 1000 different points"/>
+            android:text="@string/googlemaps_different_points"/>
 
         <Button
-            android:id="@+id/mapbox_1000_different_points_btn"
+            android:id="@+id/mapbox_different_points_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_gravity="center_horizontal"
-            android:text="Mapbox 1000 different points"/>
+            android:text="@string/mapbox_different_points"/>
 
 
     </LinearLayout>

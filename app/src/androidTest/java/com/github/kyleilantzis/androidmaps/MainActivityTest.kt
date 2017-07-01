@@ -23,7 +23,7 @@ class MainActivityTest {
     @JvmField
     val rule = ActivityTestRule<MainActivity>(MainActivity::class.java)
 
-    val REPEAT = 1
+    val POINTS = BuildConfig.POINTS
 
     companion object {
 
@@ -76,12 +76,12 @@ class MainActivityTest {
     }
 
     @Test()
-    fun test_1000_points() {
-        val times = measureActionTime(REPEAT) { onView(withId(R.id.googleMaps_1000_points_btn)).perform(click()) }
-        testResults.add(TestResult("Google maps 1000 points", REPEAT, times.first, times.second))
+    fun test_googlemaps_points() {
+        val times = doActionAndMeasureTime(BuildConfig.REPEAT) { onView(withId(R.id.googlemaps_points_btn)).perform(click()) }
+        testResults.add(TestResult("Google maps $POINTS points", BuildConfig.REPEAT, times.first, times.second))
     }
 
-    fun measureActionTime(repeat: Int, block: () -> Unit): Pair<Array<Long>, Array<Long>> {
+    fun doActionAndMeasureTime(repeat: Int, block: () -> Unit): Pair<Array<Long>, Array<Long>> {
 
         val markers = Array<Long>(repeat) { 0 }
         val icons = Array<Long>(repeat) { 0 }
