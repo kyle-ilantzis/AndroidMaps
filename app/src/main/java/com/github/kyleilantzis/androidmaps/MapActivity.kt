@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
+import com.github.kyleilantzis.androidmaps.espresso.EspressoIdlingResource
 import com.mapbox.mapboxsdk.Mapbox
 import java.util.*
 import kotlin.system.measureTimeMillis
@@ -15,6 +16,10 @@ import kotlin.system.measureTimeMillis
 class MapActivity : AppCompatActivity() {
 
     companion object {
+
+        @Volatile var markerMillis: Long = 0
+        @Volatile var iconMillis: Long = 0
+        @Volatile var actionDone: Boolean = false
 
         val TAG = "MyMaps"
 
@@ -46,6 +51,11 @@ class MapActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        EspressoIdlingResource.increment()
+        MapActivity.markerMillis = 0
+        MapActivity.iconMillis = 0
+        MapActivity.actionDone = false
 
         Mapbox.getInstance(applicationContext, BuildConfig.MAPBOX_KEY)
 
@@ -87,6 +97,9 @@ class MapActivity : AppCompatActivity() {
                 ACTION_1000_SIMILAR_POINTS -> _1000_similar_points()
                 ACTION_1000_DIFFERENT_POINTS -> _1000_different_points()
             }
+
+            actionDone = true
+            EspressoIdlingResource.decrement()
         }
     }
 
@@ -142,6 +155,9 @@ class MapActivity : AppCompatActivity() {
                 map.addMarker(icon, title, latlon)
             }
         }
+
+        iconMillis = 0
+        markerMillis = elapsed
 
         Log.i(TAG, "action 1000 points: $elapsed millis")
         showSnackbar("Adding 1000 points took $elapsed millis")
