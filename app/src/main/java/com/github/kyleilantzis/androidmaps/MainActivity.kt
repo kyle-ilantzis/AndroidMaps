@@ -1,5 +1,6 @@
 package com.github.kyleilantzis.androidmaps
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Button
@@ -22,6 +23,8 @@ class MainActivity : AppCompatActivity() {
         setupButton(R.id.googlemaps_different_points_btn, R.string.googlemaps_different_points, MapActivity.TYPE_GOOGLEMAPS, MapActivity.ACTION_1000_DIFFERENT_POINTS)
 
         setupButton(R.id.mapbox_different_points_btn, R.string.mapbox_different_points, MapActivity.TYPE_MAPBOX, MapActivity.ACTION_1000_DIFFERENT_POINTS)
+
+        (findViewById(R.id.test_results_btn) as Button).setOnClickListener { startActivity(Intent(this, TestResultsActivity::class.java)) }
     }
 
     fun setupButton(btnId: Int, stringId: Int, type: Int, action: Int) {

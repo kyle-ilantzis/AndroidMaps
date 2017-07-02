@@ -1,5 +1,6 @@
 package com.github.kyleilantzis.androidmaps
 
+import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.Espresso.pressBack
@@ -12,6 +13,7 @@ import com.github.kyleilantzis.androidmaps.espresso.EspressoIdlingResource
 import org.junit.*
 import org.junit.Assert.assertEquals
 import org.junit.runner.RunWith
+import java.io.PrintWriter
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -34,6 +36,8 @@ class MainActivityTest {
         @JvmStatic
         fun afterClass() {
 
+            val printWriter = PrintWriter(InstrumentationRegistry.getTargetContext().openFileOutput(TestResultsActivity.FILE_NAME, 0))
+
             for (testResult in testResults) {
 
                 val name = testResult.name
@@ -41,25 +45,27 @@ class MainActivityTest {
                 val markers = testResult.markerMillis
                 val icons = testResult.iconMillis
 
-                System.out.println("==== ====")
-                System.out.println("==== $name ====")
-                System.out.println("==== ====")
+                printWriter.println("==== ====<br/>")
+                printWriter.println("==== $name ====<br/>")
+                printWriter.println("==== ====<br/>")
 
-                System.out.println()
-                System.out.println("repeated: $repeated")
+                printWriter.println("<br/>")
+                printWriter.println("repeated: $repeated<br/>")
 
-                System.out.println()
-                System.out.println("markers: " + Arrays.toString(markers))
-                System.out.println("markers average: " + markers.sum() / markers.size.toDouble())
+                printWriter.println("<br/>")
+                printWriter.println("markers: " + Arrays.toString(markers) + "<br/>")
+                printWriter.println("markers average: " + markers.sum() / markers.size.toDouble() + "<br/>")
 
-                System.out.println()
-                System.out.println("icons: " + Arrays.toString(icons))
-                System.out.println("icons average: " + icons.sum() / icons.size.toDouble())
+                printWriter.println("<br/>")
+                printWriter.println("icons: " + Arrays.toString(icons) + "<br/>")
+                printWriter.println("icons average: " + icons.sum() / icons.size.toDouble() + "<br/>")
 
-                System.out.println("==== ====")
-                System.out.println("==== // $name ====")
-                System.out.println("==== ====")
+                printWriter.println("==== ====<br/>")
+                printWriter.println("==== // $name ====<br/>")
+                printWriter.println("==== ====<br/>")
             }
+
+            printWriter.close()
         }
     }
 
@@ -77,18 +83,42 @@ class MainActivityTest {
 
     @Test()
     fun test_googlemaps_points() {
-        val times = doActionAndMeasureTime(BuildConfig.REPEAT) { onView(withId(R.id.googlemaps_points_btn)).perform(click()) }
-        testResults.add(TestResult("Google maps $POINTS points", BuildConfig.REPEAT, times.first, times.second))
+        doActionAndMeasureTime("Google Maps $POINTS points", R.id.googlemaps_points_btn)
     }
 
-    fun doActionAndMeasureTime(repeat: Int, block: () -> Unit): Pair<Array<Long>, Array<Long>> {
+    @Test()
+    fun test_mapbox_points() {
+        doActionAndMeasureTime("Mapbox $POINTS points", R.id.mapbox_points_btn)
+    }
 
-        val markers = Array<Long>(repeat) { 0 }
-        val icons = Array<Long>(repeat) { 0 }
+    @Test()
+    fun test_googlemaps_similar_points() {
+        doActionAndMeasureTime("Google Maps $POINTS similar points", R.id.googlemaps_similar_points_btn)
+    }
 
-        for (i in 0 until repeat) {
+    @Test()
+    fun test_mapbox_similar_points() {
+        doActionAndMeasureTime("Mapbox $POINTS similar points", R.id.mapbox_similar_points_btn)
+    }
 
-            block()
+    @Test()
+    fun test_googlemaps_different_points() {
+        doActionAndMeasureTime("Google Maps $POINTS different points", R.id.googlemaps_different_points_btn)
+    }
+
+    @Test()
+    fun test_mapbox_different_points() {
+        doActionAndMeasureTime("Mapbox $POINTS different points", R.id.mapbox_different_points_btn)
+    }
+
+    fun doActionAndMeasureTime(name: String, btnId: Int) {
+
+        val markers = Array<Long>(BuildConfig.REPEAT) { 0 }
+        val icons = Array<Long>(BuildConfig.REPEAT) { 0 }
+
+        for (i in 0 until BuildConfig.REPEAT) {
+
+            onView(withId(btnId)).perform(click())
 
             assertEquals(true, MapActivity.actionDone)
 
@@ -98,7 +128,7 @@ class MainActivityTest {
             pressBack()
         }
 
-        return markers to icons
+        testResults.add(TestResult(name, BuildConfig.REPEAT, markers, icons))
     }
 
     data class TestResult(val name: String, val repeated: Int, val markerMillis: Array<Long>, val iconMillis: Array<Long>)

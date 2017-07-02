@@ -185,6 +185,9 @@ class MapActivity : AppCompatActivity() {
             }
         }
 
+        iconMillis = elapsedIcons
+        markerMillis = elapsed
+
         Log.i(TAG, "action $POINTS similar points: $elapsed millis")
         showSnackbar("$POINTS similar points took $elapsedIcons millis to create the icons and $elapsed millis to add the markers")
     }
@@ -217,6 +220,9 @@ class MapActivity : AppCompatActivity() {
                 map.addMarker(icon, title, latlon)
             }
         }
+
+        iconMillis = elapsedIcons
+        markerMillis = elapsed
 
         Log.i(TAG, "action $POINTS different points: $elapsed millis")
         showSnackbar("$POINTS different points took $elapsedIcons millis to create the icons and $elapsed millis to add the markers")
