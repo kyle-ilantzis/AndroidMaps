@@ -1,5 +1,6 @@
 package com.github.kyleilantzis.androidmaps
 
+import android.content.Context
 import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso
 import android.support.test.espresso.Espresso.onView
@@ -10,12 +11,14 @@ import android.support.test.filters.LargeTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.github.kyleilantzis.androidmaps.espresso.EspressoIdlingResource
-import org.junit.*
+import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.PrintWriter
 import java.util.*
-import kotlin.collections.ArrayList
 
 @RunWith(AndroidJUnit4::class)
 @LargeTest
@@ -27,57 +30,50 @@ class MainActivityTest {
 
     val POINTS = BuildConfig.POINTS
 
-    companion object {
-
-        @JvmStatic
-        val testResults = ArrayList<TestResult>()
-
-        @AfterClass
-        @JvmStatic
-        fun afterClass() {
-
-            val printWriter = PrintWriter(InstrumentationRegistry.getTargetContext().openFileOutput(TestResultsActivity.FILE_NAME, 0))
-
-            for (testResult in testResults) {
-
-                val name = testResult.name
-                val repeated = testResult.repeated
-                val markers = testResult.markerMillis
-                val icons = testResult.iconMillis
-
-                printWriter.println("==== ====<br/>")
-                printWriter.println("==== $name ====<br/>")
-                printWriter.println("==== ====<br/>")
-
-                printWriter.println("<br/>")
-                printWriter.println("repeated: $repeated<br/>")
-
-                printWriter.println("<br/>")
-                printWriter.println("markers: " + Arrays.toString(markers) + "<br/>")
-                printWriter.println("markers average: " + markers.sum() / markers.size.toDouble() + "<br/>")
-
-                printWriter.println("<br/>")
-                printWriter.println("icons: " + Arrays.toString(icons) + "<br/>")
-                printWriter.println("icons average: " + icons.sum() / icons.size.toDouble() + "<br/>")
-
-                printWriter.println("==== ====<br/>")
-                printWriter.println("==== // $name ====<br/>")
-                printWriter.println("==== ====<br/>")
-            }
-
-            printWriter.close()
-        }
-    }
+    var testResult: TestResult? = null
 
     @Before
     fun before() {
         Espresso.registerIdlingResources(EspressoIdlingResource.createIdlingResource())
+        testResult = null
     }
 
     @After
     fun after() {
+
         EspressoIdlingResource.idlingResource?.also {
             Espresso.unregisterIdlingResources(it)
+        }
+
+        testResult?.also { testResult ->
+
+            val printWriter = PrintWriter(InstrumentationRegistry.getTargetContext().openFileOutput(TestResultsActivity.FILE_NAME, Context.MODE_APPEND))
+
+            val name = testResult.name
+            val repeated = testResult.repeated
+            val markers = testResult.markerMillis
+            val icons = testResult.iconMillis
+
+            printWriter.println("==== ====<br/>")
+            printWriter.println("==== $name ====<br/>")
+            printWriter.println("==== ====<br/>")
+
+            printWriter.println("<br/>")
+            printWriter.println("repeated: $repeated<br/>")
+
+            printWriter.println("<br/>")
+            printWriter.println("markers: " + Arrays.toString(markers) + "<br/>")
+            printWriter.println("markers average: " + markers.sum() / markers.size.toDouble() + "<br/>")
+
+            printWriter.println("<br/>")
+            printWriter.println("icons: " + Arrays.toString(icons) + "<br/>")
+            printWriter.println("icons average: " + icons.sum() / icons.size.toDouble() + "<br/>")
+
+            printWriter.println("==== ====<br/>")
+            printWriter.println("==== // $name ====<br/>")
+            printWriter.println("==== ====<br/>")
+
+            printWriter.close()
         }
     }
 
@@ -128,7 +124,7 @@ class MainActivityTest {
             pressBack()
         }
 
-        testResults.add(TestResult(name, BuildConfig.REPEAT, markers, icons))
+        testResult = TestResult(name, BuildConfig.REPEAT, markers, icons)
     }
 
     data class TestResult(val name: String, val repeated: Int, val markerMillis: Array<Long>, val iconMillis: Array<Long>)

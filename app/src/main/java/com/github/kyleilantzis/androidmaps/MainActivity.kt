@@ -2,6 +2,7 @@ package com.github.kyleilantzis.androidmaps
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 
@@ -25,6 +26,13 @@ class MainActivity : AppCompatActivity() {
         setupButton(R.id.mapbox_different_points_btn, R.string.mapbox_different_points, MapActivity.TYPE_MAPBOX, MapActivity.ACTION_1000_DIFFERENT_POINTS)
 
         (findViewById(R.id.test_results_btn) as Button).setOnClickListener { startActivity(Intent(this, TestResultsActivity::class.java)) }
+
+        (findViewById(R.id.test_results_btn) as Button).setOnLongClickListener {
+            val file = getFileStreamPath(TestResultsActivity.FILE_NAME)
+            file.delete()
+            Snackbar.make(it, "File $file deleted.", Snackbar.LENGTH_SHORT).show()
+            true
+        }
     }
 
     fun setupButton(btnId: Int, stringId: Int, type: Int, action: Int) {
