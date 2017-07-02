@@ -4,17 +4,50 @@ What is [google maps](https://developers.google.com/maps/)? Learn about the [goo
 
 What is [mapbox](https://www.mapbox.com/)? Learn about the [mapbox android sdk](https://www.mapbox.com/android-docs/map-sdk/overview/)
 
+Does mapbox take less time than google maps when adding a big number of markers on the map?
+
 ## Experiments
+
+Run on an a personal android device with:
+* 1.7GHz Qualcomm® Snapdragon™ 615 Octa-core CPU
+* Adreno 405 @ 550 MHz GPU
+* 2GB RAM
+
+Repeated 100 times
 
 ### Adding 1000 default markers to the map
 
-Google Maps: on average 100 milliseconds
+These default markers provide no image to be displayed. 
+The map then uses a default image to display the marker
 
-Mapbox: on average 20 milliseconds
+Google Maps: on average 292.85 milliseconds
 
-<img src="readme/googlemaps_1000_points.png" width="320" height="420" />
+Mapbox: on average 54.19 milliseconds
 
-<img src="readme/mapbox_1000_points.png" width="320" height="420" />
+![](readme/googlemaps_1000_points.png)
+
+![](readme/mapbox_1000_points.png)
+
+### Adding 1000 different markers to the map
+
+The markers have an image associated with them to be displayed on the map.
+We create a triangles with random colors for each marker. 
+
+Google Maps:
+* Creating the icons took on average 1209.57 milliseconds    
+* Adding the markers took on average 314.31 milliseconds
+
+Mapbox:
+* Creating the icons took on average 354.42 milliseconds    
+* Adding the markers took on average 446.01 milliseconds
+
+![](readme/googlemaps_1000_different_points.png)
+
+![](readme/mapbox_1000_different_points.png)
+
+### Results
+
+You can view the individual times of the experiments [here](readme/results.txt)
 
 ## Installation
 
