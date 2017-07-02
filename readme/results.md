@@ -2,7 +2,7 @@
 
 Each average is out of 100 tries. Number of markers added are 1000, 3000, 5000
 
-**Adding markers to the map with no icon **
+**Adding markers to the map with no icon**
 
  Map | 1000 markers | 3000 markers | 5000 markers
 ---- | ------------ | ------------ | ------------
