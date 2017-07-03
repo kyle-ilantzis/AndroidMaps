@@ -30,7 +30,6 @@ class MapActivity : AppCompatActivity() {
         val TYPE_GOOGLEMAPS = 1
 
         val ACTION_1000_POINTS = 0
-        val ACTION_1000_SIMILAR_POINTS = 1
         val ACTION_1000_DIFFERENT_POINTS = 2
 
         fun start(ctx: Context, type: Int, action: Int) {
@@ -90,7 +89,6 @@ class MapActivity : AppCompatActivity() {
             when (action) {
 
                 ACTION_1000_POINTS -> _1000_points()
-                ACTION_1000_SIMILAR_POINTS -> _1000_similar_points()
                 ACTION_1000_DIFFERENT_POINTS -> _1000_different_points()
             }
 
@@ -156,40 +154,6 @@ class MapActivity : AppCompatActivity() {
         Log.i(TAG, "action $POINTS points: $elapsed millis")
         showSnackbar("Adding $POINTS points took $elapsed millis")
 
-    }
-
-    fun _1000_similar_points() {
-
-        Log.i(TAG, "starting action $POINTS similar points...")
-
-        val startIcons = System.currentTimeMillis()
-
-        val icon1 = makeTriangleIcon(Color.RED)
-        val icon2 = makeTriangleIcon(Color.BLUE)
-        val icon3 = makeTriangleIcon(Color.YELLOW)
-        val icons = arrayOf(icon1, icon2, icon3)
-
-        val elapsedIcons = System.currentTimeMillis() - startIcons
-        Log.i(TAG, "action $POINTS similar points: icons took $elapsedIcons millis")
-
-        val random = Random()
-        val randomPoints = randomPoints()
-
-        val elapsed = measureTimeMillis {
-            randomPoints.forEachIndexed { i, latlon ->
-
-                val icon = icons[random.nextInt(icons.size)]
-                val title = Integer.toString(i)
-
-                map.addMarker(icon, title, latlon)
-            }
-        }
-
-        iconMillis = elapsedIcons
-        markerMillis = elapsed
-
-        Log.i(TAG, "action $POINTS similar points: $elapsed millis")
-        showSnackbar("$POINTS similar points took $elapsedIcons millis to create the icons and $elapsed millis to add the markers")
     }
 
     fun _1000_different_points() {

@@ -2,10 +2,8 @@
     <string name="app_name">AndroidMaps</string>
 
     <string name="googlemaps_points">Google Maps %d points</string>
-    <string name="googlemaps_similar_points">Google Maps %d similar points</string>
     <string name="googlemaps_different_points">Google Maps %d different points</string>
 
     <string name="mapbox_points">Mapbox %d points</string>
-    <string name="mapbox_similar_points">Mapbox %d similar points</string>
     <string name="mapbox_different_points">Mapbox %d different points</string>
 </resources>

@@ -88,16 +88,6 @@ class MainActivityTest {
     }
 
     @Test()
-    fun test_googlemaps_similar_points() {
-        doActionAndMeasureTime("Google Maps $POINTS similar points", R.id.googlemaps_similar_points_btn)
-    }
-
-    @Test()
-    fun test_mapbox_similar_points() {
-        doActionAndMeasureTime("Mapbox $POINTS similar points", R.id.mapbox_similar_points_btn)
-    }
-
-    @Test()
     fun test_googlemaps_different_points() {
         doActionAndMeasureTime("Google Maps $POINTS different points", R.id.googlemaps_different_points_btn)
     }

@@ -17,10 +17,6 @@ class MainActivity : AppCompatActivity() {
 
         setupButton(R.id.mapbox_points_btn, R.string.mapbox_points, MapActivity.TYPE_MAPBOX, MapActivity.ACTION_1000_POINTS)
 
-        setupButton(R.id.googlemaps_similar_points_btn, R.string.googlemaps_similar_points, MapActivity.TYPE_GOOGLEMAPS, MapActivity.ACTION_1000_SIMILAR_POINTS)
-
-        setupButton(R.id.mapbox_similar_points_btn, R.string.mapbox_similar_points, MapActivity.TYPE_MAPBOX, MapActivity.ACTION_1000_SIMILAR_POINTS)
-
         setupButton(R.id.googlemaps_different_points_btn, R.string.googlemaps_different_points, MapActivity.TYPE_GOOGLEMAPS, MapActivity.ACTION_1000_DIFFERENT_POINTS)
 
         setupButton(R.id.mapbox_different_points_btn, R.string.mapbox_different_points, MapActivity.TYPE_MAPBOX, MapActivity.ACTION_1000_DIFFERENT_POINTS)
