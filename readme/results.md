@@ -1,6 +1,13 @@
 # Results
 
-Each average is out of 100 tries. Number of markers added are 1000, 3000, 5000
+Run on an a personal android device with:
+* 1.7GHz Qualcomm® Snapdragon™ 615 Octa-core CPU
+* Adreno 405 @ 550 MHz GPU
+* 2GB RAM
+
+The number of markers added are 1000, 3000, 5000.
+Each experiment is repeated 100 times to obtain an average. 
+The times listed are in milliseconds.
 
 **Adding markers to the map with no icon**
 
