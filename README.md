@@ -73,7 +73,7 @@ Map | 1000 markers (w icon) | 3000 markers (w icon) | 5000 markers (w icon)
 Google Maps | 314.31 | 902.13 | 1465.28
 Mapbox | 446.01 | 1579.84 |  3624.7
 
-You can view the individual times of the experiments [here](readme/results.txt)
+You can view the individual times of the experiments [here](readme/results.md)
 
 ## Conclusion
 
