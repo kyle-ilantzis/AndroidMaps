@@ -77,7 +77,16 @@ You can view the individual times of the experiments [here](readme/results.txt)
 
 ## Conclusion
 
-TODO
+When adding default markers to the map, mapbox is about 5 times faster than google maps.
+ 
+When adding markers each with their own icon, mapbox is faster than google maps.
+For 1000 markers mapbox is about 1.9 times faster, 
+3000 markers is about 1.6 times faster, 
+5000 markers is about 1.4 times faster.
+
+We see that mapbox is faster than google maps when creating icons. 
+However, google maps is faster when adding markers that have their own icon. 
+But added together, icons and markers, mapbox is faster.
 
 ### Installation
 
