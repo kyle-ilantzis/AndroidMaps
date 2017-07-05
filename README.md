@@ -10,15 +10,9 @@ Does mapbox take less time than google maps when adding a big number of markers 
 
 Two experiments have been timed to compare google maps and mapbox:
 
-Adding markers to the map:
-
-This is simply adding a default marker at some latitude longitude on the map. 
-The corresponding map has its own image to represent the marker. 
+* Adding markers to the map
   
-Adding markers with their own icons to the map:
-  
-This involves having a icon for the marker being added to the map. 
-The corresponding map provides and interface to create an icon from bitmaps.
+* Adding markers with their own icons to the map
 
 ## Images
 
@@ -46,27 +40,39 @@ Run on an a personal android device with:
 * 2GB RAM
 
 The number of markers added are 1000, 3000, 5000.
+
 Each experiment is repeated 100 times to obtain an average. 
+
 The times listed are in milliseconds.
 
-**Adding markers to the map with no icon**
+### Adding markers to the map with no icon
+
+This is simply adding a default marker at some latitude longitude on the map.
 
  Map | 1000 markers | 3000 markers | 5000 markers
 ---- | ------------ | ------------ | ------------
 Google Maps | 292.85 | 837.22 | 1263.68
 Mapbox | 54.19 | 163.4 | 268.12
 
-**Adding markers each with their own icon** 
+### Adding markers each with their own icon 
+
+This involves having an icon for the marker being added to the map.
 
 Map | 1000 icons + markers | 3000 icons + markers | 5000 icons + markers
 ---- | ------------ | ------------ | ------------
 Google Maps | 1523.87 | 4276.18 | 7573.28
 Mapbox | 800.43 | 2631.5 | 5368.35
 
+The next 2 tables breaks down the times from the above table.
+
+This is the time taken to create the icons upfront, before adding markers to the map.
+
 Map | 1000 icons | 3000 icons | 5000 icons
 ---- | ------------ | ------------ | ------------
 Google Maps | 1209.56 | 3374.05 | 6108.0
 Mapbox | 354.42 | 1051.66 | 1743.65
+
+This is the time taken to add markers to the map once the icons have been created.
 
 Map | 1000 markers (w icon) | 3000 markers (w icon) | 5000 markers (w icon)
 ---- | ------------ | ------------ | ------------
@@ -80,17 +86,20 @@ You can view the individual times of the experiments [here](readme/results.md)
 When adding default markers to the map, mapbox is about 5 times faster than google maps.
  
 When adding markers each with their own icon, mapbox is faster than google maps.
-For 1000 markers mapbox is about 1.9 times faster, 
-3000 markers is about 1.6 times faster, 
-5000 markers is about 1.4 times faster.
+
+* For 1000 markers mapbox is about 1.9 times faster. 
+* For 3000 markers mapbox is about 1.6 times faster.
+* For 5000 markers mapbox is about 1.4 times faster.
 
 We see that mapbox is faster than google maps when creating icons. 
-However, google maps is faster when adding markers that have their own icon. 
-But added together, icons and markers, mapbox is faster.
+
+However, google maps is faster when adding markers that have their own icon.
+ 
+But overall, mapbox is faster when creating and adding markers with their own icons.
 
 ### Installation
 
-If you would like to try it out for your self simply follow the steps below.
+If you would like to try it out for your self, follow the steps below.
 
 1. git clone this repository
 1. Copy secrets.example.properties to secrets.properties
